@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="25dp"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/chat_delete_dialog">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Message?"
+        android:textAlignment="textStart"
+        android:padding="10dp"
+        android:textColor="@color/primary_black"
+        android:textSize="16sp"
+        android:textStyle="bold|normal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/everyone"
+        android:text="Delete for everyone"
+        android:textAlignment="textEnd"
+        android:padding="10dp"
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:textStyle="bold|normal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete"
+        android:text="Remove for me"
+        android:textAlignment="textEnd"
+        android:textColor="#F44336"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold|normal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel"
+        android:text="Cancel"
+        android:textAlignment="textEnd"
+        android:padding="10dp"
+        android:textColor="#309434"
+        android:textSize="16sp"
+        android:textStyle="bold|normal"/>
+
+</LinearLayout>

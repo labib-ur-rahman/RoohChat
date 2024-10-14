@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cvSingleProduct"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="6dp"
+    app:cardBackgroundColor="#EFFFFFFF"
+    app:cardCornerRadius="50dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="@+id/imageView3"
+    app:layout_constraintStart_toStartOf="@+id/imageView3"
+    app:layout_constraintTop_toBottomOf="@+id/greetings">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:scaleType="centerCrop"
+            android:id="@+id/ivImage"
+            android:src="@drawable/profile_pic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvName"  />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="-3dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/baloo_da_2"
+            android:maxLines="2"
+            android:padding="5dp"
+            android:text="Labib UR Rahman"
+            android:textColor="@color/primary_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvTimeStamp"
+            app:layout_constraintStart_toEndOf="@+id/ivImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTimeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/baloo_da_2"
+            android:textSize="11sp"
+            android:textColor="#A9A9A9"
+            android:text="Just Now"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/baloo_da_2"
+            android:layout_marginTop="-8dp"
+            android:maxLines="1"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="10dp"
+            android:text="May this Eid bring you luck you and bring you"
+            android:textAlignment="textStart"
+            android:textColor="@color/secondary_black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvCountUnseenMsg"
+            app:layout_constraintStart_toStartOf="@+id/tvName"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <TextView
+            android:id="@+id/tvCountUnseenMsg"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:fontFamily="@font/baloo_thambi"
+            android:text="2"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_unread_msg_count"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

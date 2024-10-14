@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "337303004572",
+    "project_id": "rooh-chat",
+    "storage_bucket": "rooh-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337303004572:android:e83905c11b4d114ec7d459",
+        "android_client_info": {
+          "package_name": "com.softylur.roohchat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-0MUFF-nCpkcBIS7WpuBt3Q2_QsasZcM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
