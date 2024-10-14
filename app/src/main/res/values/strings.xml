@@ -3,4 +3,22 @@
     <string name="resend_otp">Resend OTP</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_your_mobile_number">Enter Your Mobile Number</string>
+    <string name="we_will_send_you_an">We will send you an</string>
+    <string name="one_time_password">One Time Password</string>
+    <string name="on_this_mobile_number">on this mobile number.</string>
+    <string name="by_continuing_you_agree_to_rooh_chat">By continuing you agree to Rooh Chat</string>
+    <string name="terms_of_use">Terms of Use</string>
+    <string name="amp"><![CDATA[&]]></string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="continue_btn_text">Continue</string>
+    <string name="dammy_phone_number">1600000000</string>
+    <string name="in_seconds">in %s Seconds</string>
+    <string name="verify_8801600000000">Verify +8801600000000</string>
+    <string name="enter_your_otp_code_to_verify_your_phone_number">Enter your OTP code to verify your Phone Number</string>
+    <string name="dont_receive_the_otp">Dont receive the OTP?</string>
+    <string name="in_60_seconds">in 60 Seconds</string>
+    <string name="my_name">Labib</string>
+
+
 </resources>

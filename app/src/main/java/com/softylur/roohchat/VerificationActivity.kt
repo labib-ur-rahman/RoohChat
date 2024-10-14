@@ -2,20 +2,16 @@ package com.softylur.roohchat
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.firebase.auth.FirebaseAuth
 import com.hbb20.CountryCodePicker
 import com.softylur.roohchat.databinding.ActivityVerificationBinding
 
 class VerificationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVerificationBinding
-    private lateinit var auth: FirebaseAuth
     private lateinit var countryCodePicker : CountryCodePicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,26 +26,19 @@ class VerificationActivity : AppCompatActivity() {
         }
 
         countryCodePicker = binding.countryCodePicker
-        auth = FirebaseAuth.getInstance()
-        if (auth.currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
 
-        binding.textInputEditText.requestFocus()
+        binding.etPhoneNumber.requestFocus()
 
-        countryCodePicker.registerCarrierNumberEditText(binding.textInputEditText)
+        countryCodePicker.registerCarrierNumberEditText(binding.etPhoneNumber)
 
         binding.btnContinue.setOnClickListener {
-
-            if (binding.textInputEditText.text.toString().length >= 10){
-
+            if (binding.etPhoneNumber.text.toString().length == 10){
+                // User enters maximum 10 number then go to next activity
                 val intent = Intent(this, OTPActivity::class.java)
                 intent.putExtra("phone_number", countryCodePicker.fullNumberWithPlus)
                 startActivity(intent)
             } else {
-                binding.textInputEditText.error = "Please enter valid phone number"
+                binding.etPhoneNumber.error = "Please enter valid phone number"
             }
         }
     }

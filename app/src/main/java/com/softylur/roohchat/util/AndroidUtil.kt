@@ -10,5 +10,4 @@ class AndroidUtil {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
-
 }

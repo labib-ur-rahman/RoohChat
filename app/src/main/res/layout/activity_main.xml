@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".HomePageActivity"
     android:background="#f3f3f3">
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:fontFamily="@font/baloo_da_2"
-            android:hint="Labib"
+            android:hint="@string/my_name"
             android:textSize="24sp"
             android:textColor="@color/primary_black"
             android:textStyle="bold|normal" />

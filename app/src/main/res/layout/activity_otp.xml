@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OTPActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/imageView"
@@ -27,11 +23,12 @@
             android:id="@+id/tvNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:textAlignment="center"
             android:fontFamily="@font/baloo_bhai"
-            android:hint="Verify  +8801600000000"
-            android:textColor="#2196F3"
+            android:hint="@string/verify_8801600000000"
+            android:textColor="@color/primary_black"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,8 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/baloo_da_2"
-            android:text="Enter your OTP code to verify your Phone Number"
+            android:text="@string/enter_your_otp_code_to_verify_your_phone_number"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="@+id/tvNumber"
             app:layout_constraintStart_toStartOf="@+id/tvNumber"
@@ -54,74 +52,78 @@
             android:id="@+id/otp_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:inputType="number"
-            android:itemBackground="@drawable/bg_cat"
+            android:itemBackground="@drawable/bg_otp"
             android:focusableInTouchMode="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/baloo_da_2"
             app:OtpItemCount="6"
-            app:OtpLineColor="@color/black"
+            app:OtpLineColor="@color/primary_black"
             app:layout_constraintEnd_toEndOf="@+id/tv1"
             app:layout_constraintStart_toStartOf="@+id/tv1"
             app:layout_constraintTop_toBottomOf="@+id/tv1"
             app:shapeAppearance="@style/Rounded"/>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnNext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@drawable/background_shape"
-            android:fontFamily="@font/baloo_da_2"
-            android:paddingTop="5dp"
-            android:text="Next"
-            android:textColor="#fff"
-            android:textSize="19sp"
-            android:textStyle="bold"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="230dp"
+            android:layout_marginTop="-40dp"
             app:layout_constraintEnd_toEndOf="@+id/otp_view"
             app:layout_constraintStart_toStartOf="@+id/otp_view"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="32dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:layout_constraintEnd_toEndOf="@+id/btnNext"
-            app:layout_constraintStart_toStartOf="@+id/btnNext"
-            app:layout_constraintTop_toBottomOf="@+id/btnNext" />
+            app:layout_constraintTop_toBottomOf="@+id/otp_view"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/circle_loader" />
 
         <LinearLayout
             android:id="@+id/numberFiled"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="@+id/progressBar"
-            app:layout_constraintStart_toStartOf="@+id/progressBar"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvResendTimer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/tvResendText"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:padding="10dp"
-                    android:hint="Resend OTP in ** Seconds" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/baloo_da_2"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_black"
+                    android:text="@string/dont_receive_the_otp"/>
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnResendOtp"
+                <TextView
+                    android:id="@+id/tvResendBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/btn_resend_bg"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:text="Resend OTP"
-                    android:textColor="@color/white"
-                    android:textSize="12dp" />
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/baloo_da_2"
+                    android:textColor="@color/resend_otp_btn_active_color"
+                    android:textStyle="bold"
+                    android:text="@string/resend_otp" />
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <TextView
+            android:id="@+id/tvResendTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/in_60_seconds"
+            android:fontFamily="@font/baloo_da_2"
+            android:textColor="@color/primary_black"
+            android:textStyle="bold"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

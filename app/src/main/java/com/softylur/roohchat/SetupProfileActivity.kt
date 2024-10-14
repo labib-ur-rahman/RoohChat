@@ -14,7 +14,6 @@ import com.softylur.roohchat.databinding.ActivitySetupProfileBinding
 import com.softylur.roohchat.model.User
 import com.softylur.roohchat.util.AndroidUtil
 import java.util.HashMap
-import java.util.Objects
 
 class SetupProfileActivity : AppCompatActivity() {
 
@@ -76,12 +75,12 @@ class SetupProfileActivity : AppCompatActivity() {
                             usersRef.child(it1)
                                 .setValue(user)
                                 .addOnSuccessListener {
-                                val intent = Intent(this, MainActivity::class.java)
+                                val intent = Intent(this, HomePageActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
                             /*usersRef.child(it1).updateChildren(updates).addOnSuccessListener {
-                                val intent = Intent(this, MainActivity::class.java)
+                                val intent = Intent(this, HomePageActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }*/
@@ -106,7 +105,7 @@ class SetupProfileActivity : AppCompatActivity() {
                                 .child(uid!!)
                                 .setValue(user)
                                 .addOnCompleteListener {
-                                    val intent = Intent(this, MainActivity::class.java)
+                                    val intent = Intent(this, HomePageActivity::class.java)
                                     startActivity(intent)
                                     finish()
                                 }
@@ -122,7 +121,7 @@ class SetupProfileActivity : AppCompatActivity() {
                             .child(uid!!)
                             .setValue(user)
                             .addOnCanceledListener {
-                                val intent = Intent(this, MainActivity::class.java)
+                                val intent = Intent(this, HomePageActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
