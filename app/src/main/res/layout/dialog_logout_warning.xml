@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/dialogCV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/baloo_da_2"
+                    android:text="@string/do_you_want_to_log_out"
+                    android:textColor="@color/primary_black"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/emailBox">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnYesLogOut"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/hp_green_left_radius"
+                        android:text="@string/yes"
+                        android:paddingTop="3dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/baloo_bhai"
+                        android:textSize="14sp"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/emailBox"
+                        app:layout_constraintTop_toBottomOf="@+id/emailBox" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnNoLogOut"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/hp_orange_right_radius"
+                        android:text="@string/no"
+                        android:paddingTop="3dp"
+                        android:textColor="@color/main_white"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/baloo_bhai"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/emailBox"
+                        app:layout_constraintStart_toEndOf="@+id/btnCancel"
+                        app:layout_constraintTop_toBottomOf="@+id/emailBox" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnCloseLogOut"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginEnd="-10dp"
+            android:backgroundTint="@color/red"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintEnd_toEndOf="@+id/dialogCV"
+            app:layout_constraintTop_toTopOf="@+id/dialogCV">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/icon"
+                android:padding="5dp"
+                android:src="@drawable/cross" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

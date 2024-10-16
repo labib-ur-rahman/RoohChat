@@ -53,6 +53,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation(libs.activity.ktx)
+    //implementation(libs.fragment.ktx)
+
     // Import the Firebase BoM Dependencies
     implementation(platform(libs.firebase.bom)) // Firebase BOM
     implementation(libs.google.firebase.auth) // Firebase Authentication
@@ -66,6 +69,7 @@ dependencies {
 
     implementation (libs.circleimageview) // Circle Image
     implementation (libs.glide) // Image from Glide
+    implementation (libs.imagepicker) // Pick Gallery Image & Capture Camera Image
     implementation (libs.otpview) // OTP Viewer
     implementation(libs.stickyScrollView) // Sticky Scroll View Header and Footer
 

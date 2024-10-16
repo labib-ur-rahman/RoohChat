@@ -8,4 +8,6 @@
     <color name="secondary_black">#A8A8A8</color>
     <color name="main_white">#FBFBFB</color>
     <color name="resend_otp_btn_active_color">#9168ef</color>
+    <color name="red">#F10F0B</color>
+    <color name="green">#03B151</color>
 </resources>

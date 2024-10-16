@@ -7,43 +7,205 @@
     android:layout_height="match_parent"
     tools:context=".SetupProfileActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_margin="50dp"
-        android:src="@drawable/profile_pic"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/bg_profile_top_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/backHomeBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/circle_shadow_icon"
+            android:elevation="50dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:elevation="20dp"
+                android:src="@drawable/bottom_selected_home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/backLogout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/circle_shadow_icon"
+            android:elevation="50dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:elevation="20dp"
+                android:src="@drawable/logout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editPro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/proPic"
+                android:layout_width="145dp"
+                android:layout_height="145dp"
+                android:src="@drawable/profile_pic"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/proCamera"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/camera"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/proPic" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/proName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:hint="@string/please_set_your_name"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:fontFamily="@font/baloo_da_2"
+            android:textColorHint="@color/secondary_black"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/editPro"
+            app:layout_constraintStart_toStartOf="@+id/editPro"
+            app:layout_constraintTop_toBottomOf="@+id/editPro" />
+
+        <TextView
+            android:id="@+id/proNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/baloo_da_2"
+            android:hint="@string/your_phone_number"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textColorHint="@color/secondary_black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/proName"
+            app:layout_constraintStart_toStartOf="@+id/proName"
+            app:layout_constraintTop_toBottomOf="@+id/proName" />
+
+        <ImageView
+            android:id="@+id/ivBg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/circles"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/progressBarShow"
+            android:layout_width="0dp"
+            android:layout_height="230dp"
+            android:layout_marginTop="-60dp"
+            android:layout_marginBottom="-70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:visibility="gone"
+            app:lottie_rawRes="@raw/circle_loader" />
+
+        <View
+            android:id="@+id/progressBarHide"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tvProfileInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:fontFamily="@font/baloo_bhai"
-        android:text="Profile Information"
+        android:text="@string/profile_information"
         android:textColor="#000000"
         android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="@+id/profile_image"
-        app:layout_constraintStart_toStartOf="@+id/profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"/>
-
+        app:layout_constraintEnd_toEndOf="@+id/clHeader"
+        app:layout_constraintStart_toStartOf="@+id/clHeader"
+        app:layout_constraintTop_toBottomOf="@+id/clHeader" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginTop="15dp"
-        android:hint="Type Your Name"
+        android:layout_marginRight="40dp"
+        android:hint="@string/type_your_name"
         android:minEms="6"
-        android:textAlignment="center"
+        android:textColorHint="@color/primary_black"
+        android:textSize="18sp"
+        android:fontFamily="@font/baloo_da_2"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="@+id/tvProfileInfo"
         app:layout_constraintStart_toStartOf="@+id/tvProfileInfo"
@@ -56,7 +218,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/baloo_da_2"
             android:inputType="textPersonName"
-            android:textAlignment="center" />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,17 +228,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
         android:background="@drawable/btn_resend_bg"
         android:fontFamily="@font/baloo_da_2"
         android:paddingTop="5dp"
-        android:text="Setup Profile"
+        android:text="@string/setup_profile"
         android:textColor="#fff"
         android:textSize="19sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

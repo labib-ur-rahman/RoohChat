@@ -1,8 +1,12 @@
 package com.softylur.roohchat
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -16,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.softylur.roohchat.adapter.UserAdapter
 import com.softylur.roohchat.databinding.ActivityMainBinding
+import com.softylur.roohchat.databinding.DialogLogoutWarningBinding
 import com.softylur.roohchat.model.User
 
 
@@ -43,6 +48,28 @@ class HomePageActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         logInUser = auth.currentUser!!
         userList = ArrayList<User>()
+
+        binding.appBarLayout.setOnClickListener {
+            val builder = AlertDialog.Builder(this,R.style.CustomAlertDialog).create()
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_logout_warning, null)
+            val dialogBinding: DialogLogoutWarningBinding = DialogLogoutWarningBinding.bind(dialogView)
+            builder.setView(dialogBinding.root)
+            builder.setCanceledOnTouchOutside(false)
+            builder.show()
+
+            dialogBinding.btnYesLogOut.setOnClickListener {
+                auth.signOut()
+                startActivity(Intent( this, VerificationActivity::class.java))
+                builder.dismiss()
+                finish()
+            }
+            dialogBinding.btnNoLogOut.setOnClickListener { builder.dismiss() }
+            dialogBinding.btnCloseLogOut.setOnClickListener { builder.dismiss() }
+
+            if (builder.window != null) builder.window!!.setBackgroundDrawable(ColorDrawable(0))
+            builder.show()
+        }
+
 
         // Realtime database theke "users" node er current user er sob data ber kora hoace
         // users >>> uid >>> name = value

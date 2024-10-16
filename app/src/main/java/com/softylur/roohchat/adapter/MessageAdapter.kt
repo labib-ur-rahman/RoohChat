@@ -83,11 +83,11 @@ class MessageAdapter(
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val logInUserInfo = snapshot.getValue(User::class.java)!!
                         Glide.with(context)
-                            .load(logInUserInfo.profileImage) // ToDo : In Future
+                            .load(logInUserInfo.profileImage)
                             .placeholder(R.drawable.profile_pic)
                             .into(viewHolder.binding.ivSenderPicture)
                         Glide.with(context)
-                            .load(logInUserInfo.profileImage) // ToDo : In Future
+                            .load(logInUserInfo.profileImage)
                             .placeholder(R.drawable.profile_pic)
                             .into(viewHolder.binding.ivSenderPicture2)
                     }

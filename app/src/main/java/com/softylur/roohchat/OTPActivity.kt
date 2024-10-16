@@ -34,7 +34,7 @@ class OTPActivity : AppCompatActivity() {
     private val timeOut = 60L
     private lateinit var phoneNumber: String
     private val tag = "OTPActivity"
-    private lateinit var callbacks : PhoneAuthProvider.OnVerificationStateChangedCallbacks
+    private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,9 +98,10 @@ class OTPActivity : AppCompatActivity() {
 
                 setInProgress(false) // otpView Enabled and Hide progress bar
                 when (e) {
-                    is FirebaseAuthInvalidCredentialsException -> AndroidUtil.lToast(this@OTPActivity, "Invalid request")
-                    is FirebaseTooManyRequestsException -> AndroidUtil.lToast(this@OTPActivity, "The SMS quota for the project has been exceeded")
+                    is FirebaseAuthInvalidCredentialsException -> AndroidUtil.lToast(this@OTPActivity,"Invalid request")
+                    is FirebaseTooManyRequestsException -> AndroidUtil.lToast(this@OTPActivity,"The SMS quota for the project has been exceeded")
                     is FirebaseAuthMissingActivityForRecaptchaException -> AndroidUtil.lToast(this@OTPActivity, "reCAPTCHA verification attempted with null Activity")
+                    else -> AndroidUtil.lToast(this@OTPActivity, "Failed to verify phone number")
                 }
             }
 
@@ -145,59 +146,44 @@ class OTPActivity : AppCompatActivity() {
 
         // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-        binding.otpView.setOtpCompletionListener { code->
+        binding.otpView.setOtpCompletionListener { code ->
+            Log.d(tag, "User's entered OTP is: $code")
 
             /* Step : 3 => Create a PhoneAuthCredential object
             ==> [PhoneAuthCredential] object, using the verification code and the verification ID
                 which the user enters the verification code that Firebase sent to there phone
             -----------------------------------------------------------------------------------*/
-            val credential = PhoneAuthProvider.getCredential(verificationId, code)
 
-            signInWithPhoneAuthCredential(credential)
+            try {
+                Log.d(tag, "Enter try block and VerificationID is: $verificationId")
 
-            //val credential =  PhoneAuthProvider.getCredential(storedVerificationId, otp)
-            mAuth.signInWithCredential(credential)
-                .addOnCompleteListener{ task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        setInProgress(false)
+                val credential = PhoneAuthProvider.getCredential(verificationId, code)
+                signInWithPhoneAuthCredential(credential)
 
-                        // val user = task.result?.user
-                        val intent = Intent(this@OTPActivity, SetupProfileActivity::class.java)
-                        startActivity(intent)
-                        finishAffinity()
-                    } else {
-                        // Sign in failed, display a message and update the UI
+            } catch (e: Exception) {
+                Log.d(tag, "credential Catch: $e")
 
-                        if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                            // The verification code entered was invalid
-                            binding.otpView.error = "The verification code entered was invalid"
-                            AndroidUtil.lToast(this@OTPActivity, "The verification code entered was invalid")
-                        }
-                        // Update UI
-                    }
-                }
+                binding.otpView.error = "The verification code entered was invalid"
+            }
+
         }
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        startResendTimer()
         setInProgress(true) // otpView Disable and Show Progress Bar
 
         /* Step : 4 => Sign in the user
         ==> complete the sign-in flow by passing the [PhoneAuthCredential] object
             to [FirebaseAuth.signInWithCredential]
         -----------------------------------------------------------------------------------*/
+
         mAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
+                Log.d(tag, "SignInWithCredential called & Task is: $task")
+
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(tag, "signInWithCredential: success")
-
-                    setInProgress(false) // otpView Enabled and Hide progress bar
-
-                    val user = task.result?.user
-                    AndroidUtil.lToast(this@OTPActivity, user.toString())
+                    Log.d(tag, "signInWithCredential: Success")
 
                     val intent = Intent(this, SetupProfileActivity::class.java)
                     intent.putExtra("phoneNumber", phoneNumber)
@@ -205,13 +191,16 @@ class OTPActivity : AppCompatActivity() {
                     finishAffinity()
                 } else {
                     // Sign in failed, display a message and update the UI
-                    Log.w(tag, "signInWithCredential:failure", task.exception)
+                    Log.w(tag, "signInWithCredential: Failed ", task.exception)
+
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
-                        AndroidUtil.lToast(this@OTPActivity, "OTP Verification Failed")
+                        setInProgress(false) // otpView Enabled and Hide Progress Bar
+                        binding.otpView.error = "The verification code entered was invalid"
+                        AndroidUtil.lToast(this@OTPActivity, "The verification code from SMS/TOTP is invalid. Please check and enter the correct verification code again.")
                     }
                     // Update UI
-                    binding.otpView.error = "The verification code entered was invalid"
+                    AndroidUtil.lToast(this@OTPActivity, "The verification code from SMS/TOTP is invalid. Please check and enter the correct verification code again.")
                 }
             }
     }
@@ -226,15 +215,35 @@ class OTPActivity : AppCompatActivity() {
                 val timer = millisUntilFinished / 1000
                 binding.tvResendTimer.text = getString(R.string.in_seconds, timer.toString())
                 binding.tvResendBtn.isEnabled = false
-                binding.tvResendBtn.setTextColor(ContextCompat.getColor(this@OTPActivity, R.color.primary_black))
-                binding.tvResendTimer.setTextColor(ContextCompat.getColor(this@OTPActivity, R.color.resend_otp_btn_active_color))
+                binding.tvResendBtn.setTextColor(
+                    ContextCompat.getColor(
+                        this@OTPActivity,
+                        R.color.primary_black
+                    )
+                )
+                binding.tvResendTimer.setTextColor(
+                    ContextCompat.getColor(
+                        this@OTPActivity,
+                        R.color.resend_otp_btn_active_color
+                    )
+                )
             }
 
             override fun onFinish() {
                 binding.tvResendTimer.visibility = View.INVISIBLE
                 binding.tvResendBtn.isEnabled = true
-                binding.tvResendBtn.setTextColor(ContextCompat.getColor(this@OTPActivity, R.color.resend_otp_btn_active_color))
-                binding.tvResendTimer.setTextColor(ContextCompat.getColor(this@OTPActivity, R.color.primary_black))
+                binding.tvResendBtn.setTextColor(
+                    ContextCompat.getColor(
+                        this@OTPActivity,
+                        R.color.resend_otp_btn_active_color
+                    )
+                )
+                binding.tvResendTimer.setTextColor(
+                    ContextCompat.getColor(
+                        this@OTPActivity,
+                        R.color.primary_black
+                    )
+                )
             }
         }.start()
     }
