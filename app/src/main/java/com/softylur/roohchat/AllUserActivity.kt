@@ -2,16 +2,13 @@ package com.softylur.roohchat
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
@@ -19,23 +16,23 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.softylur.roohchat.adapter.UserAdapter
-import com.softylur.roohchat.databinding.ActivityMainBinding
-import com.softylur.roohchat.databinding.DialogLogoutWarningBinding
+import com.softylur.roohchat.databinding.ActivityAllUserBinding
 import com.softylur.roohchat.model.User
 
 
-class HomePageActivity : AppCompatActivity() {
+class AllUserActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityAllUserBinding
     private lateinit var database: FirebaseDatabase
     private lateinit var auth: FirebaseAuth
-    private lateinit var logInUser: FirebaseUser
+    private lateinit var currentUser: FirebaseUser
     private lateinit var userList: ArrayList<User>
     private lateinit var userAdapter: UserAdapter
+    private val tag = "AllUserActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityAllUserBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -46,47 +43,16 @@ class HomePageActivity : AppCompatActivity() {
 
         database = FirebaseDatabase.getInstance()
         auth = FirebaseAuth.getInstance()
-        logInUser = auth.currentUser!!
+        currentUser = auth.currentUser!!
         userList = ArrayList<User>()
 
-        binding.appBarLayout.setOnClickListener {
-            val builder = AlertDialog.Builder(this,R.style.CustomAlertDialog).create()
-            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_logout_warning, null)
-            val dialogBinding: DialogLogoutWarningBinding = DialogLogoutWarningBinding.bind(dialogView)
-            builder.setView(dialogBinding.root)
-            builder.setCanceledOnTouchOutside(false)
-            builder.show()
-
-            dialogBinding.btnYesLogOut.setOnClickListener {
-                auth.signOut()
-                startActivity(Intent( this, VerificationActivity::class.java))
-                builder.dismiss()
-                finish()
-            }
-            dialogBinding.btnNoLogOut.setOnClickListener { builder.dismiss() }
-            dialogBinding.btnCloseLogOut.setOnClickListener { builder.dismiss() }
-
-            if (builder.window != null) builder.window!!.setBackgroundDrawable(ColorDrawable(0))
-            builder.show()
+        binding.btnProfile.setOnClickListener {
+            startActivity(Intent(this, SetupProfileActivity::class.java))
         }
 
-
-        // Realtime database theke "users" node er current user er sob data ber kora hoace
-        // users >>> uid >>> name = value
-        database.getReference("users").child(logInUser.uid)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val logInUserInfo = snapshot.getValue(User::class.java)!!
-                    binding.tvProfileName.text = logInUserInfo.name
-                    Glide.with(this@HomePageActivity)
-                        .load(logInUserInfo.profileImage)
-                        .placeholder(R.drawable.profile_pic)
-                        .into(binding.ivProfilePicture)
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            })
-
+        binding.btnHome.setOnClickListener {
+            startActivity(Intent(this, InboxActivity::class.java))
+        }
 
         binding.rvUser.layoutManager = LinearLayoutManager(this)
         userAdapter = UserAdapter(this, userList)
@@ -100,6 +66,8 @@ class HomePageActivity : AppCompatActivity() {
                     val user = snapshot1.getValue(User::class.java)
                     if (user?.uid.equals(auth.uid).not()) {
                         user?.let { userList.add(it) }
+
+                        Log.d(tag, user?.name.toString())
                     }
                 }
                 userAdapter.notifyDataSetChanged()
@@ -118,6 +86,10 @@ class HomePageActivity : AppCompatActivity() {
             database.reference.child("presence")
                 .child(it)
                 .setValue("online")
+            database.reference.child("users")
+                .child(it)
+                .child("status")
+                .setValue("online")
         }
     }
 
@@ -128,6 +100,10 @@ class HomePageActivity : AppCompatActivity() {
             database.reference.child("presence")
                 .child(it)
                 .setValue("offline")
+            database.reference.child("users")
+                .child(it)
+                .child("status")
+                .setValue("offline")
         }
     }
 
@@ -137,6 +113,10 @@ class HomePageActivity : AppCompatActivity() {
         currentId?.let {
             database.reference.child("presence")
                 .child(it)
+                .setValue("offline")
+            database.reference.child("users")
+                .child(it)
+                .child("status")
                 .setValue("offline")
         }
     }
