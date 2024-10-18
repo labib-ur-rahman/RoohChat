@@ -96,8 +96,8 @@ class MessageAdapter(
                 })
             val calendar: Calendar = Calendar.getInstance()
             calendar.setTimeInMillis(messagesList.timeStamp)
-            holder.binding.tvTime.text = DateFormat.format("hh:mm", calendar).toString()
-            holder.binding.tvTimeImage.text = DateFormat.format("hh:mm", calendar).toString()
+            holder.binding.tvTime.text = DateFormat.format("hh:mm a", calendar).toString()
+            holder.binding.tvTimeImage.text = DateFormat.format("hh:mm a", calendar).toString()
 
             viewHolder.binding.tvMessage.text = messagesList.message
 

@@ -28,6 +28,7 @@
     <string name="no">No</string>
     <string name="do_you_want_to_log_out">Do you want to log out?</string>
     <string name="icon">Icon</string>
+    <string name="search_by_name">Search by Name</string>
 
 
 </resources>

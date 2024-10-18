@@ -1,6 +1,7 @@
 package com.softylur.roohchat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,22 +16,22 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.softylur.roohchat.adapter.UserAdapter
-import com.softylur.roohchat.databinding.ActivityMainBinding
+import com.softylur.roohchat.databinding.ActivityAllUserBinding
 import com.softylur.roohchat.model.User
 
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityAllUserBinding
     private lateinit var database: FirebaseDatabase
     private lateinit var auth: FirebaseAuth
     private lateinit var logInUser: FirebaseUser
-    private lateinit var userList: ArrayList<User>
+   // private lateinit var userList: ArrayList<User>
     private lateinit var userAdapter: UserAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityAllUserBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -42,37 +43,24 @@ class MainActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
         auth = FirebaseAuth.getInstance()
         logInUser = auth.currentUser!!
-        userList = ArrayList<User>()
+        //userList = ArrayList<User>()
 
-        // Realtime database theke "users" node er current user er sob data ber kora hoace
-        // users >>> uid >>> name = value
-        database.getReference("users").child(logInUser.uid)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val logInUserInfo = snapshot.getValue(User::class.java)!!
-                    binding.tvProfileName.text = logInUserInfo.name
-                    Glide.with(this@MainActivity)
-                        .load(logInUserInfo.profileImage)
-                        .placeholder(R.drawable.profile_pic)
-                        .into(binding.ivProfilePicture)
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            })
-
+        binding.btnProfile.setOnClickListener {
+            startActivity(Intent(this, SetupProfileActivity::class.java))
+        }
 
         binding.rvUser.layoutManager = LinearLayoutManager(this)
-        userAdapter = UserAdapter(this, userList)
+        //userAdapter = UserAdapter(this, userList)
         binding.rvUser.adapter = userAdapter
 
         database.reference.child("users").addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
-                userList.clear()
+                //userList.clear()
                 for (snapshot1 in snapshot.children) {
                     val user = snapshot1.getValue(User::class.java)
                     if (user?.uid.equals(auth.uid).not()) {
-                        user?.let { userList.add(it) }
+                        //user?.let { userList.add(it) }
                     }
                 }
                 userAdapter.notifyDataSetChanged()

@@ -3,6 +3,9 @@
     <style name="Base.Theme.Rooh" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <!-- Splash Screen - Light -->
+
     </style>
 
     <style name="Theme.Rooh" parent="Base.Theme.Rooh" />
