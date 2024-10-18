@@ -2,6 +2,11 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Rooh" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+         <item name="colorPrimary">@color/my_dark_primary</item>
+
+        <!-- Splash Screen - Dark -->
+        <item name="white">@</item>
+
+
     </style>
 </resources>

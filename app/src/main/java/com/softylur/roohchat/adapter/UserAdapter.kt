@@ -1,18 +1,27 @@
 package com.softylur.roohchat.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.softylur.roohchat.ChatActivity
 import com.softylur.roohchat.R
 import com.softylur.roohchat.databinding.ItemUserListBinding
+import com.softylur.roohchat.model.InboxModel
 import com.softylur.roohchat.model.User
 
-class UserAdapter(var context: Context, var userList: ArrayList<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(var context: Context, private var userList: ArrayList<User>) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+    private val database = FirebaseDatabase.getInstance()
+
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val binding = ItemUserListBinding.bind(itemView)
     }
@@ -26,7 +35,8 @@ class UserAdapter(var context: Context, var userList: ArrayList<User>) : Recycle
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = userList[position]
         holder.binding.tvName.text = user.name
-        holder.binding.tvMsg.text = user.phoneNumber
+        holder.binding.tvBio.text = user.bio
+        holder.binding.tvStatus.text = user.status
         Glide.with(context)
             .load(user.profileImage)
             .placeholder(R.drawable.profile_pic)
