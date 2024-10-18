@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,10 +16,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.softylur.roohchat.adapter.MessageAdapter
 import com.softylur.roohchat.databinding.ActivityChatBinding
@@ -37,7 +40,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private lateinit var storage: FirebaseStorage
     private lateinit var auth: FirebaseAuth
-    private lateinit var logInUser: FirebaseUser
+    private lateinit var currentUser: FirebaseUser
     lateinit var senderUid: String
     private lateinit var receiverUid: String
 
@@ -55,7 +58,7 @@ class ChatActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
         storage = FirebaseStorage.getInstance()
         auth = FirebaseAuth.getInstance()
-        logInUser = auth.currentUser!!
+        currentUser = Firebase.auth.currentUser!!
         messagesList = ArrayList()
 
         val nameReceiver = intent.getStringExtra("name").toString()
@@ -75,6 +78,7 @@ class ChatActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         val status = snapshot.getValue(String::class.java)
+                        binding.tvPresence.visibility = View.VISIBLE
                         binding.tvPresence.text = snapshot.value.toString()
 //
 //                        if (status == "offline") {
@@ -82,6 +86,26 @@ class ChatActivity : AppCompatActivity() {
 //                        } else {
 //                            binding.tvPresence.text = snapshot.value.toString()
 //                        }
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {}
+            })
+        database.reference.child("inbox")
+            .child(senderUid)
+            .child(receiverUid)
+            .child("statusReceiver")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val status = snapshot.getValue(String::class.java)
+                        if (status == "typing..."){
+                            binding.tvTypingStatus.visibility = View.VISIBLE
+                            binding.tvTypingStatus.text = status
+                            binding.tvPresence.visibility = View.INVISIBLE
+                        } else {
+                            binding.tvPresence.visibility = View.VISIBLE
+                            binding.tvTypingStatus.visibility = View.INVISIBLE
+                        }
                     }
                 }
                 override fun onCancelled(error: DatabaseError) {}
@@ -123,6 +147,39 @@ class ChatActivity : AppCompatActivity() {
             lastMsgObj["lastMsg"] = message.message!!
             lastMsgObj["lastMsgTime"] = date.time
 
+            val inboxSenderObj = HashMap<String, Any>()
+            inboxSenderObj["lastMsg"] = message.message!!
+            inboxSenderObj["lastMsgTime"] = date.time.toString()
+            // Sender Information
+            inboxSenderObj["nameSender"] = currentUser.displayName.toString()
+            inboxSenderObj["photoUrlSender"] = currentUser.photoUrl.toString()
+            inboxSenderObj["uidSender"] = currentUser.uid
+            // Receiver Information
+            inboxSenderObj["nameReceiver"] = nameReceiver
+            inboxSenderObj["uidReceiver"] = receiverUid
+            inboxSenderObj["photoUrlReceiver"] = imageReceiver
+
+            database.reference.child("inbox")
+                .child(senderUid)
+                .child(receiverUid)
+                .updateChildren(inboxSenderObj)
+
+            val inboxReceiverObj = HashMap<String, Any>()
+            inboxReceiverObj["lastMsg"] = message.message!!
+            inboxReceiverObj["lastMsgTime"] = date.time.toString()
+            // Sender Information
+            inboxReceiverObj["nameSender"] = nameReceiver
+            inboxReceiverObj["photoUrlSender"] = imageReceiver
+            inboxReceiverObj["uidSender"] = receiverUid
+            // Receiver Information
+            inboxReceiverObj["nameReceiver"] = currentUser.displayName.toString()
+            inboxReceiverObj["uidReceiver"] = currentUser.uid
+            inboxReceiverObj["photoUrlReceiver"] = currentUser.photoUrl.toString()
+            database.reference.child("inbox")
+                .child(receiverUid)
+                .child(senderUid)
+                .updateChildren(inboxReceiverObj)
+
             database.reference.child("chats")
                 .child(senderRoom)
                 .updateChildren(lastMsgObj)
@@ -157,17 +214,31 @@ class ChatActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                database.reference.child("presence")
+                database.reference.child("inbox")
                     .child(senderUid)
+                    .child(receiverUid)
+                    .child("statusSender")
+                    .setValue("typing...")
+                database.reference.child("inbox")
+                    .child(receiverUid)
+                    .child(senderUid)
+                    .child("statusReceiver")
                     .setValue("typing...")
                 handler.removeCallbacksAndMessages(null)
                 handler.postDelayed(userStoppedTyping, 1000)
             }
 
             var userStoppedTyping = Runnable {
-                database.reference.child("presence")
+                database.reference.child("inbox")
                     .child(senderUid)
-                    .setValue("Online")
+                    .child(receiverUid)
+                    .child("statusSender")
+                    .setValue("")
+                database.reference.child("inbox")
+                    .child(receiverUid)
+                    .child(senderUid)
+                    .child("statusReceiver")
+                    .setValue("")
             }
         })
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
@@ -230,6 +301,16 @@ class ChatActivity : AppCompatActivity() {
             database.reference.child("presence")
                 .child(it)
                 .setValue("online")
+//            database.reference.child("inbox")
+//                .child(senderUid)
+//                .child(receiverUid)
+//                .child("statusSender")
+//                .setValue("online")
+//            database.reference.child("inbox")
+//                .child(receiverUid)
+//                .child(senderUid)
+//                .child("statusReceiver")
+//                .setValue("online")
         }
     }
 
@@ -240,6 +321,16 @@ class ChatActivity : AppCompatActivity() {
             database.reference.child("presence")
                 .child(it)
                 .setValue("offline")
+//            database.reference.child("inbox")
+//                .child(senderUid)
+//                .child(receiverUid)
+//                .child("statusSender")
+//                .setValue("offline")
+//            database.reference.child("inbox")
+//                .child(receiverUid)
+//                .child(senderUid)
+//                .child("statusReceiver")
+//                .setValue("offline")
         }
     }
 }

@@ -102,7 +102,7 @@ class SetupProfileActivity : AppCompatActivity() {
                 binding.textInputEditText.error = "Name is required"
                 return@setOnClickListener
             } else {
-                startActivity(Intent(this, HomePageActivity::class.java))
+                startActivity(Intent(this, InboxActivity::class.java))
                 finish()
             }
         }
@@ -222,7 +222,7 @@ class SetupProfileActivity : AppCompatActivity() {
                         if (inputBox.isEmpty()) {
                             binding.textInputEditText.error = "Name is required"
                         } else {
-                            val intent = Intent(this, HomePageActivity::class.java)
+                            val intent = Intent(this, InboxActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
