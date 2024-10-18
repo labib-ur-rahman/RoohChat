@@ -38,12 +38,12 @@ class SplashScreenActivity : AppCompatActivity() {
         binding.logoImageView.animation = upFromBottom
         binding.appNameTextView.animation = upFromBottom
 
-        // Delay the splash screen for 3 seconds, then move to HomePageActivity
+        // Delay the splash screen for 3 seconds, then move to AllUserActivity
         Handler(Looper.getMainLooper()).postDelayed({
-            // Check if user is already logged in and move to HomePageActivity if true, otherwise move to VerificationActivity
+            // Check if user is already logged in and move to AllUserActivity if true, otherwise move to VerificationActivity
             if (auth.currentUser != null) {
                 // Start the home page activity
-                startActivity(Intent(this, HomePageActivity::class.java))
+                startActivity(Intent(this, InboxActivity::class.java))
             } else {
                 // Start the verification activity
                 startActivity(Intent(this, VerificationActivity::class.java))

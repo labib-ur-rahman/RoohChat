@@ -1,3 +1,3 @@
 package com.softylur.roohchat.model
 
-data class UserData(val uid: String, val name: String, val phoneNumber: String, val profileImage: String)
+data class UserData(val uidSender: String, val uidReceiver: String, val lastMsg: String, val lastMsgTime: Long)

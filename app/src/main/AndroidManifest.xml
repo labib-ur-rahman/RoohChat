@@ -13,23 +13,26 @@
         android:theme="@style/Theme.Rooh"
         tools:targetApi="31">
         <activity
+            android:name=".InboxActivity"
+            android:exported="false" />
+        <activity
             android:name=".RoohChatActivity"
             android:exported="false" />
         <activity
             android:name=".ChatActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SetupProfileActivity"
             android:exported="false" />
         <activity
             android:name=".OTPActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".VerificationActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
@@ -40,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomePageActivity"
+            android:name=".AllUserActivity"
             android:exported="false" />
 
         <meta-data
